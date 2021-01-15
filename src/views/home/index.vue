@@ -1,7 +1,7 @@
 <template>
   <el-row>
     <el-col :span="8" :offset="1">
-      <el-card shadow="hover" >
+      <el-card shadow="hover">
         <template #header>
           <span>文章板块</span>
           <router-link
@@ -65,33 +65,35 @@ import { getToken } from "@/utils/auth";
 // import { getLatestProblem } from "@/api/problem";
 import { getArticalLatest } from "@/api/artical";
 import Header from "@/views/layout/header.vue";
-
+import { reactive, onMounted, toRefs } from "vue";
 export default {
   name: "home",
-  data() {
-    return {
+
+  setup(props) {
+    const data = reactive({
       note: [],
       problem: [],
-    };
-  },
-  created() {
-    // this.$http.get('http://localhost:5200/api/v1/artical/latest').then((res) => {
-    getArticalLatest().then((res) => {
-      console.log(res);
-      this.note = res.data.noteList;
-      this.problem = res.data.problemList;
-      // console.log(this.note);
     });
-  },
-  mounted() {
-    // console.log(getToken());
+    const test = () => {
+      problem.push(1);
+      console.log(problem);
+    };
+    onMounted(async () => {
+      const result = await getArticalLatest();
+      data.note = result.data.noteList;
+      data.problem = result.data.problemList;
+    });
+
+    return {
+      ...toRefs(data),
+    };
   },
 };
 </script>
 >
 
 <style lang="scss">
-.el-card{
+.el-card {
   a.enter {
     float: right;
   }
