@@ -19,6 +19,8 @@ export default {
       }
     }
   },
+
+  
   //依赖配置，加快构建速度  
   // optimizeDeps: {
   //   include: ["axios", "element-plus","js-cookie","marked"] 

@@ -54,8 +54,6 @@ export default {
       isPublishing: false,
     };
   },
-  created() {},
-  mounted() {},
   methods: {
     createProblem(content) {
       this.isPublishing = true;

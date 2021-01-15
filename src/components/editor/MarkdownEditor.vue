@@ -17,7 +17,7 @@ import "tui-editor/dist/tui-editor.css"; // editor's ui
 import "tui-editor/dist/tui-editor-contents.css"; // editor's content
 import "codemirror/lib/codemirror.css"; // codemirror
 import "highlight.js/styles/github.css"; // code block highlight
-import { ref, onMounted, onBeforeUnmount, reactive } from "vue";
+import { toRefs, onMounted, onBeforeUnmount, reactive } from "vue";
 export default {
   name: "tuieditor",
   props: {
@@ -29,7 +29,9 @@ export default {
     // value: String,
   },
   setup(props) {
-    let tuieditor = ref(null);
+    let data = reactive({
+      tuieditor: null,
+    });
     // const initialize = () => {
     //   console.log(new Editor({
     //     el: document.querySelector("#editorSection"),
@@ -48,21 +50,21 @@ export default {
       //     height: "400px",
       //   })
       // );
-      tuieditor = new Editor({
+      data.tuieditor = new Editor({
         el: document.querySelector("#editorSection"),
         initialEditType: "markdown",
         previewStyle: "vertical",
         height: "400px",
       });
-      tuieditor.getHtml();
+      data.tuieditor.getHtml();
     });
     onBeforeUnmount(() => {
-      tuieditor = null;
+      data.tuieditor = null;
       // delete tuieditor;
     });
 
     return {
-      tuieditor,
+      ...toRefs(data),
       // initialize,
     };
   },

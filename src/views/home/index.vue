@@ -1,14 +1,14 @@
 <template>
   <el-row>
-    <el-col :span="8" :offset="1">
+    <el-col :span="18" >
       <el-card shadow="hover">
         <template #header>
           <span>文章板块</span>
-          <router-link
+          <!-- <router-link
             class="enter"
             :to="{ name: 'community', params: { communityId: 'note' } }"
             >进入</router-link
-          >
+          > -->
         </template>
         <ul class="community-card-content">
           <li
@@ -25,7 +25,8 @@
         </ul>
       </el-card>
     </el-col>
-    <el-col :span="8" :offset="1">
+    <!-- <el-col :span="8" :offset="1">
+ 
       <el-card shadow="hover">
         <template #header class="community-card-header-title">
           <span>提问板块</span>
@@ -49,8 +50,8 @@
           </li>
         </ul>
       </el-card>
-    </el-col>
-    <el-col :span="4" :offset="1">
+    </el-col> -->
+    <el-col :span="5" :offset="1">
       <el-card shadow="hover">
         <template #header class="community-card-header-title">公告</template>
         <div>公告内容</div>
@@ -65,25 +66,22 @@ import { getToken } from "@/utils/auth";
 // import { getLatestProblem } from "@/api/problem";
 import { getArticalLatest } from "@/api/artical";
 import Header from "@/views/layout/header.vue";
-import { reactive, onMounted, toRefs } from "vue";
+import { reactive, onMounted, toRefs, ref } from "vue";
 export default {
   name: "home",
 
   setup(props) {
     const data = reactive({
       note: [],
-      problem: [],
-    });
-    const test = () => {
-      problem.push(1);
-      console.log(problem);
-    };
-    onMounted(async () => {
-      const result = await getArticalLatest();
-      data.note = result.data.noteList;
-      data.problem = result.data.problemList;
+      // problem: [],
     });
 
+    onMounted(async () => {
+      const result = await getArticalLatest();
+      data.note = result.data.data;
+      // data.problem = result.data.problemList;
+      // console.log(problem);
+    });
     return {
       ...toRefs(data),
     };

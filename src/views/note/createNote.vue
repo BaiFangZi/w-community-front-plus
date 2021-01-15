@@ -3,7 +3,7 @@
     <el-page-header @back="goBack" content="撰写文章"></el-page-header>
     <el-divider></el-divider>
     <el-form
-      ref="ruleForm"
+      ref="form"
       :model="ruleForm"
       label-width="80px"
       class="form-create-note"
@@ -37,6 +37,8 @@
 // import hljs from "highlight.js";
 import { createNote } from "@/api/note";
 import MarkdownEditor from "@/components/editor/MarkdownEditor.vue";
+import { reactive, toRefs } from "vue";
+import { useRouter } from "vue-router";
 
 // window.hljs = hljs;
 export default {
@@ -44,7 +46,8 @@ export default {
   components: {
     MarkdownEditor,
   },
-  data() {
+  setup(props) {
+    let router = useRouter();
     let validateTitle = (rule, value, callback) => {
       if (value !== "") {
         callback();
@@ -52,7 +55,9 @@ export default {
         callback("请输入标题！！！");
       }
     };
-    return {
+
+    const data = reactive({
+      form: null,
       ruleForm: {
         title: "",
         content: "22332",
@@ -62,20 +67,16 @@ export default {
         // content: [{ trigger: "blur" }],
       },
       isPublishing: false,
-    };
-  },
-  created() {},
-  mounted() {},
-  methods: {
-    createNote(content) {
-      this.isPublishing = true;
-      this.ruleForm.content = content;
-      this.$refs.ruleForm.validate((valid) => {
+    });
+
+    const createNote = (content) => {
+      // console.log(content);
+      data.isPublishing = true;
+      data.ruleForm.content = content;
+      // console.log(data.form);
+      data.form.validate((valid) => {
         if (valid) {
           const { title, content } = this.ruleForm;
-
-          // console.log(title);
-          // console.log(content);
           createNote({
             title,
             content, //xxs？？？
@@ -95,14 +96,21 @@ export default {
           return false;
         }
       });
-    },
-    goBack() {
-      this.$router.push({ name: "home" });
-    },
-    change(val) {
+    };
+    const goBack = () => {
+      router.push({ name: "home" });
+    };
+    const change = (val) => {
       //编辑框改变事件
       // console.log(val);
-    },
+    };
+
+    return {
+      ...toRefs(data),
+      createNote,
+      goBack,
+      change,
+    };
   },
 };
 </script>
