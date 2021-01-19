@@ -78,25 +78,38 @@ router.post('/api/v1/regist', (req, res) => {
 
 
 router.get('/api/v1/artical/latest', (req, res) => {
-	console.time()
-	const noteList = notes.find({}, {
+	console.log(22323)
+	// const noteList = notes.find({}, {
+	// 	title: 1,
+	// }).limit(20)
+	// const problemList = problems.find({}, {
+	// 	title: 1,
+	// }).limit(20)
+	// Promise.all([noteList, problemList]).then(result => {
+	// 	res.send({
+	// 		msg: '操作成功',
+	// 		code: 0,
+	// 		noteList: result[0],
+	// 		problemList: result[1],
+
+	// 	})
+	// }).catch(err => {
+	// 	console.log(err.message)
+	// })
+	notes.find({}, {
 		title: 1,
-	}).limit(20)
-	const problemList = problems.find({}, {
-		title: 1,
-	}).limit(20)
-	Promise.all([noteList, problemList]).then(result => {
+	}).limit(20).then(result => {
 		res.send({
 			msg: '操作成功',
 			code: 0,
-			noteList: result[0],
-			problemList: result[1],
+			data: result,
 
 		})
-		console.timeEnd()
 	}).catch(err => {
 		console.log(err.message)
 	})
+
+
 })
 
 //发布文章
@@ -122,26 +135,26 @@ router.post('/api/v1/note/create', (req, res) => {
 
 
 
-//发布问题
+// //发布问题
 
-router.post('/api/v1/problem/create', (req, res) => {
-	problems.create({
-		title,
-		content,
-		userId,
-		date,
-		likeNum,
-		viewNum,
-		commentNum,
-	} = req.body).then(result => {
-		res.send({
-			msg: '操作成功',
-			code: 0
-		})
-	}).catch(err => {
-		console.log(err)
-	})
-})
+// router.post('/api/v1/problem/create', (req, res) => {
+// 	problems.create({
+// 		title,
+// 		content,
+// 		userId,
+// 		date,
+// 		likeNum,
+// 		viewNum,
+// 		commentNum,
+// 	} = req.body).then(result => {
+// 		res.send({
+// 			msg: '操作成功',
+// 			code: 0
+// 		})
+// 	}).catch(err => {
+// 		console.log(err)
+// 	})
+// })
 
 
 
@@ -166,26 +179,26 @@ router.get('/api/v1/note/list', (req, res) => {
 		client.close()
 	})
 })
-//获取问题分页列表
-router.get('/api/v1/problem/list', (req, res) => {
-	const {
-		page,
-		limit
-	} = req.query
-	const result = problems.find().limit(page * limit).skip((page - 1) * limit)
-	const count = problems.count()
-	Promise.all([result, count]).then(data => {
-		res.send({
-			msg: '操作成功',
-			data: data[0],
-			count: data[1]
-		})
-	}).catch(err => {
-		console.log(err)
-	}).finally(() => {
-		client.close()
-	})
-})
+// //获取问题分页列表
+// router.get('/api/v1/problem/list', (req, res) => {
+// 	const {
+// 		page,
+// 		limit
+// 	} = req.query
+// 	const result = problems.find().limit(page * limit).skip((page - 1) * limit)
+// 	const count = problems.count()
+// 	Promise.all([result, count]).then(data => {
+// 		res.send({
+// 			msg: '操作成功',
+// 			data: data[0],
+// 			count: data[1]
+// 		})
+// 	}).catch(err => {
+// 		console.log(err)
+// 	}).finally(() => {
+// 		client.close()
+// 	})
+// })
 // //获取文章内容
 router.get('/api/v1/note/content', (req, res) => {
 	notes.findById(req.query.articalId).then(result => {
@@ -198,18 +211,18 @@ router.get('/api/v1/note/content', (req, res) => {
 		console.log(err)
 	})
 })
-// //获取问题内容
-router.get('/api/v1/problem/content', (req, res) => {
-	problems.findById(req.query.articalId).then(result => {
-		res.send({
-			msg: '操作成功',
-			code: 0,
-			data: result
-		})
-	}).catch(err => {
-		console.log(err)
-	})
-})
+// // //获取问题内容
+// router.get('/api/v1/problem/content', (req, res) => {
+// 	problems.findById(req.query.articalId).then(result => {
+// 		res.send({
+// 			msg: '操作成功',
+// 			code: 0,
+// 			data: result
+// 		})
+// 	}).catch(err => {
+// 		console.log(err)
+// 	})
+// })
 
 //点赞这篇随笔
 router.get('/api/v1/note/like', (req, res) => {
@@ -228,22 +241,22 @@ router.get('/api/v1/note/like', (req, res) => {
 	})
 })
 
-//点赞这篇提问
-router.get('/api/v1/problem/like', (req, res) => {
-	problems.findByIdAndUpdate(req.query.articalId, {
-		$inc: {
-			likeNum: 1
-		},
-	}).then(result => {
-		res.send({
-			msg: '操作成功',
-			code: 0,
-			likeNum: result.likeNum + 1
-		})
-	}).catch(err => {
-		console.log(err)
-	})
-})
+// //点赞这篇提问
+// router.get('/api/v1/problem/like', (req, res) => {
+// 	problems.findByIdAndUpdate(req.query.articalId, {
+// 		$inc: {
+// 			likeNum: 1
+// 		},
+// 	}).then(result => {
+// 		res.send({
+// 			msg: '操作成功',
+// 			code: 0,
+// 			likeNum: result.likeNum + 1
+// 		})
+// 	}).catch(err => {
+// 		console.log(err)
+// 	})
+// })
 
 //搜索随笔
 router.get('/api/v1/note/search', (req, res) => {
@@ -266,27 +279,43 @@ router.get('/api/v1/note/search', (req, res) => {
 		console.log(err)
 	})
 })
-//搜索问答
-router.get('/api/v1/problem/search', (req, res) => {
-	let regValue = new RegExp(req.query.value)
-	problems.find({
-		$or: [{
-				title: regValue
-			},
-			{
-				content: regValue
-			}
-		]
-	}, 'title').then(result => {
-		regValue = null
-		res.send({
-			msg: '操作成功',
-			code: 0,
-			data: result
-		})
-	}).catch(err => {
-		console.log(err)
-	})
-})
+// //搜索问答
+// router.get('/api/v1/problem/search', (req, res) => {
+// 	let regValue = new RegExp(req.query.value)
+// 	problems.find({
+// 		$or: [{
+// 				title: regValue
+// 			},
+// 			{
+// 				content: regValue
+// 			}
+// 		]
+// 	}, 'title').then(result => {
+// 		regValue = null
+// 		res.send({
+// 			msg: '操作成功',
+// 			code: 0,
+// 			data: result
+// 		})
+// 	}).catch(err => {
+// 		console.log(err)
+// 	})
+// })
 
 module.exports = router
+
+
+// const express = require('express');
+
+// let router = express.Router();
+
+// router.get('/', function(req, res) {
+// 	res.send('用户首页');
+// });
+
+// router.get('/test', function(req, res) {
+// 	res.send(`用户信息`);
+// });
+
+// //导出该路由
+// module.exports = router;

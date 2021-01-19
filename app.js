@@ -2,14 +2,15 @@
 // const fs = require('fs')
 const express = require('express')
 const router = require('./routes')
-var history = require('connect-history-api-fallback');
+// var history = require('connect-history-api-fallback');
 const bodyParser = require('body-parser')
 // const cookieParser = require('cookie-parser')
 const db = require('./db/index.js')
 const jwt = require('jsonwebtoken')
 
 const app = express()
-app.use(history());
+
+// app.use(history());
 // //登录拦截器
 // app.use(function(req, res, next) {
 // 	var url = req.originalUrl;
@@ -53,9 +54,9 @@ app.use(history());
 //用户操作请求 api/v1/user/xxx
 //游客操作请求api/v1/xxx
 //拦截请求 用户操作请求去验证是否有token 
-app.all('/api/v1/user/*', (req, res, next) => {
-	console.log(11)
-})
+// app.all('/api/v1/user/*', (req, res, next) => {
+// 	console.log(11)
+// })
 
 
 app.use(bodyParser.urlencoded({
@@ -87,6 +88,6 @@ app.use(router)
 // 	// let html = fs.readFileSync(path.resolve(__dirname, '..', 'public/index.html'), 'utf-8')
 // 	// res.send(html)
 // })
-app.listen(3000, () => {
-	console.log('成功启动3000')
+app.listen(5200, () => {
+	console.log('成功启动5200')
 })
