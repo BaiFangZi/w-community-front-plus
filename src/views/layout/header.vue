@@ -12,16 +12,16 @@
             <div class="logo"></div>
           </el-menu-item>
           <el-menu-item index="/home">社区</el-menu-item>
-          <el-menu-item :index="user">管理</el-menu-item>
+          <el-menu-item @click="goUserNoteList">管理</el-menu-item>
           <el-menu-item index="/about">关于</el-menu-item>
         </el-menu>
       </el-col>
       <el-col :span="8">
         <div class="search">
-          <el-select v-model="searchType" placeholder="请选择">
+          <!-- <el-select v-model="searchType" placeholder="请选择">
             <el-option label="随笔" value="note"></el-option>
             <el-option label="问答" value="problem"></el-option>
-          </el-select>
+          </el-select> -->
           <el-autocomplete
             :debounce="500"
             v-model="searchText"
@@ -48,16 +48,11 @@
             </template>
           </el-dropdown>
         </div>
+
         <div class="createBlog">
-          <el-dropdown @command="createBlog" trigger="click">
-            <span><i class="el-icon-plus header-icon"></i></span>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item command="note">发布文章</el-dropdown-item>
-                <el-dropdown-item command="problem">发布问题</el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
+          <span @click="createBlog"
+            ><i class="el-icon-plus header-icon"></i
+          ></span>
         </div>
         <div class="siteMsg">
           <el-badge :value="msgNum" :max="99" class="msgNum">
@@ -85,26 +80,45 @@ export default {
     let isLogin = ref(false);
     let avatarImgSrc = ref("");
     let user = ref(`/user/232/noteList`);
-    isLogin.value = !!localStorage.getItem("token");
+    isLogin.value = store.state.user.isLogin;
+
     if (isLogin) {
       avatarImgSrc.value =
         "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png";
     } else {
       avatarImgSrc = "";
     }
+
+    const goUserNoteList = () => {
+      // console.log(1212);
+
+      if (isLogin.value) {
+        const userToken = store.getters["user/DECODE_TOKEN"];
+        router.push({
+          name:'userNoteList',
+          params:{
+            userName:userToken.name
+          }
+        })
+        console.log("用户信息",userToken)
+        // console.log("进入");
+      } else {
+        router.push("/login");
+      }
+    };
     let searchText = ref("");
     let searchType = ref("note");
     const searchArtical = (value, callback) => {
       if (value) {
-        const searchArtical =
-          searchType.value == "note" ? searchNote : searchProblem;
-        searchArtical({
+        // const searchArtical =
+        //   searchType.value == "note" ? searchNote : searchProblem;
+        searchNote({
           value,
         })
           .then((res) => {
             // let cb = [];
             let results = res.data.data;
-            console.log(results);
+            // console.log(results);
             let cb = results.map((item) => {
               return {
                 value: item.title,
@@ -130,23 +144,10 @@ export default {
     };
     let msgNum = ref(0);
     const createBlog = (command) => {
-      switch (command) {
-        case "note":
-          {
-            router.push({
-              name: "createNote",
-            });
-          }
-          break;
-        case "problem":
-          {
-            router.push({
-              name: "createProblem",
-            });
-            // router.push({ name: 'regist' });
-          }
-          break;
-      }
+      // console.log(121121);
+      router.push({
+        name: "createNote",
+      });
     };
     const userRegist = (command) => {
       switch (command) {
@@ -208,6 +209,7 @@ export default {
 
       searchArtical,
       goArtical,
+      goUserNoteList,
       createBlog,
       userRegist,
     };
@@ -266,10 +268,11 @@ export default {
         width: 79%;
 
         input {
-          // border: 0;
-          border-left: 0;
-          border-top-left-radius: 0;
-          border-bottom-left-radius: 0;
+          // // border: 0;
+          // // border-left: 0;
+          // border-top-left-radius: 0;
+          // border-bottom-left-radius: 0;
+          border-radius: 5px;
         }
       }
     }
@@ -286,9 +289,9 @@ export default {
     }
 
     .createBlog {
-      .el-dropdown span {
-        outline: none;
-      }
+      // .el-dropdown span {
+      //   outline: none;
+      // }
 
       @include head-navigation-icon();
     }

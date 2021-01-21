@@ -1,6 +1,6 @@
 <template>
   <el-row>
-    <el-col :span="18" >
+    <el-col :span="18">
       <el-card shadow="hover">
         <template #header>
           <span>文章板块</span>
@@ -60,7 +60,7 @@
   </el-row>
 </template>
 <script>
-import { getToken } from "@/utils/auth";
+// import { getToken } from "@/utils/auth";
 
 // import { getLatestNote } from "@/api/note";
 // import { getLatestProblem } from "@/api/problem";
@@ -73,22 +73,22 @@ export default {
   setup(props) {
     const data = reactive({
       note: [],
-      // problem: [],
     });
 
-    onMounted(async () => {
-      const result = await getArticalLatest();
-      data.note = result.data.data;
-      // data.problem = result.data.problemList;
-      // console.log(problem);
+    onMounted(() => { 
+      getArticalLatest().then((res) => {
+        data.note = res.data.data;
+      });
     });
     return {
       ...toRefs(data),
     };
   },
 };
+//  getArticalLatest().then((res) => {
+//     data.note = res.data.data;
+//   });
 </script>
->
 
 <style lang="scss">
 .el-card {

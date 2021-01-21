@@ -8,7 +8,7 @@
       <div class="content" v-html="note.content"></div>
     </div>
     <div class="vote-body">
-      <span>您的鼓励，是我创作的动力！！</span>
+      <!-- <span>您的鼓励，是我创作的动力！！</span> -->
       <el-button @click="likeNote" type="danger" class="iconfont icon-good"
         >喜欢此文({{ note.likeNum }})</el-button
       >

@@ -48,7 +48,7 @@ const routes = [{
 				component: () => import('@/views/community/index.vue'),
 			},
 			{
-				path: '/user/:userID/noteList', //单一用户文章列表
+				path: '/user/:userName/noteList', //单一用户文章列表
 				name: 'userNoteList',
 				component: () => import('@/views/note/userNoteList.vue'),
 			},
@@ -69,16 +69,16 @@ const routes = [{
 				name: 'editNote',
 				component: () => import('@/views/note/editNote.vue'),
 			},
-			{
-				path: '/problem/create', //创建问题
-				name: 'createProblem',
-				component: () => import('@/views/problem/createProblem.vue'),
-			},
-			{
-				path: '/problem/view/:articalId', //创建问题
-				name: 'viewProblem',
-				component: () => import('@/views/problem/viewProblem.vue'),
-			},
+			// {
+			// 	path: '/problem/create', //创建问题
+			// 	name: 'createProblem',
+			// 	component: () => import('@/views/problem/createProblem.vue'),
+			// },
+			// {
+			// 	path: '/problem/view/:articalId', //查看某一个问题
+			// 	name: 'viewProblem',
+			// 	component: () => import('@/views/problem/viewProblem.vue'),
+			// },
 			{
 				path: '/user', //创建问题
 				name: 'user',

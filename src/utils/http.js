@@ -2,9 +2,9 @@ import Axios from 'axios'
 import store from '@/store'
 import router from '../router/index'
 console.log('http')
-import {
-	getToken
-} from '@/utils/auth'
+// import {
+// 	getToken
+// } from '@/utils/auth'
 // import router from '../router/index.js'
 
 const http = Axios.create({
